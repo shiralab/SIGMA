@@ -66,70 +66,9 @@ nohup bash start_main.sh > run.log 2 >&1 &
 Detailed results will be stored in the `results` directory.
 You can check the final summary in the `results/main/xgboost/qwen3_gpu0/steps25_preset_coding/summary.csv`
 
-## Notice on Reproducibility
-
-Due to the inherent stochasticity of Large Language Models (LLMs), exact numerical reproduction of the reported results may not always be possible, even under identical experimental settings.
-
-This variability may originate from several factors, including:
-- stochastic token sampling during generation,
-- non-deterministic GPU computation,
-- backend inference differences across environments/frameworks,
-- and sensitivity of iterative feature engineering trajectories.
-
-To improve the robustness and reliability of evaluation, all experiments in this work were conducted using:
-- 3 different random dataset splits (seeds),
-- and 3 independent runs for each split.
-
-The reported results are averaged across these repeated experiments.
-
-Therefore, minor deviations in absolute performance metrics (e.g., ACC/F1/AUC) may be observed during reproduction. In such cases, we recommend evaluating reproducibility based on the consistency of overall trends, relative performance, and main conclusions rather than exact numerical matching.
-
 ## Details
-### 1. Directory
-
-#### 1.1 Overall Structure
-```
-SIGMA/
-├── main.py                          # Main entrance point for feature engineering
-├── start_main.sh                    # Bash script to run the entire pipeline
-├── start_llm_service.sh             # Bash script to start vLLM service
-├── combine_and_plot_trace.py        # Script to visualize and combine results
-├── environment.yml                  # Conda environment configuration
-├── README.md                        # This file
-├── datasets/                        # Input datasets directory
-├── results/                         # Output results directory
-├── raw_results/                         # Raw output results for the paper
-├── prompt_template/                 # LLM prompt templates
-└── utils/                           # Utility modules
-```
-
-#### 1.2 datasets
-- Contains all benchmark datasets for feature engineering evaluation
-- Each subdirectory represents a different dataset (e.g., `airlines/`, `compass/`, `covertype/`, etc.)
-- Each dataset contains 3 seed splits and a `metadata.json` file storing the basic information. 
-- In each `seed_{n}` directory, it has 6 csv files, which are `raw_{set_name}` and `set_name`. For files start with `raw_`, it contains the original data, while others have masked feature name and encoded values.
-- The datasets directory serves as input data for the SIGMA pipeline. For current appraoch, we use the masked input, which are the files of the name without `raw_`.
-- Dataset format: tabular data ready for automated feature engineering
-
-#### 1.3 results
-- **Directory structure**: `results/main/xgboost/qwen3_gpu0/steps25_preset_coding/`
-- Stores the output of feature engineering experiments
-- Organized by model type (currently `xgboost/`), LLM model name (`qwen3_gpu0`), Experiments name `steps25_preset_coding`
-- Contains performance metrics and generated features for each dataset.
-- Introducing of resutlt files and directories
-    - `code`: save the generated python code file.
-    - `configs` : save the running configs
-    - `logs`: running logs for each dataset
-    - `prompt`: prompts and answers from LLMs
-    - `stdout_logs`: output logs
-    - `traces`: detailed generated information of each dataset
-    - `prompt_backup`: Used prompt template
-    - `script_backup`: Used main.py 
-    - `summary.csv`: running results
-
-### 2. Parameters
-
-#### 2.1 main.py
+### 1. Parameters
+#### 1.1 main.py
 This is the core Python script that runs the feature engineering pipeline.
 
 **Required Arguments:**
@@ -155,7 +94,7 @@ This is the core Python script that runs the feature engineering pipeline.
 - `--random_seed`: Random seed for reproducibility (default: `42`)
 - `--track_test_curve`: Track test curve during optimization (default: `True`)
 
-#### 2.2 start_main.sh
+#### 1.2 start_main.sh
 This bash script orchestrates the entire experiment pipeline, handling multiple datasets and seeds.
 
 **Data Configuration:**
@@ -200,7 +139,7 @@ LLM_GPUS="0 1" XGB_GPUS="0" STEPS=50 bash start_main.sh
 nohup bash start_main.sh > run.log 2>&1 &
 ```
 
-#### 2.3 start_llm_service.sh
+#### 1.3 start_llm_service.sh
 This bash script starts the vLLM service for the LLM-based feature generation.
 
 **Model Configuration:**
