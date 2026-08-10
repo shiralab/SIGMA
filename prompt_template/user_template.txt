@@ -1,0 +1,80 @@
+You are a data science expert tasked with optimizing feature distribution to improve <CLS_MODEL> performance on a <N>-class classification problem.
+
+## Current Data Analysis
+
+### Feature Organization
+<GROUPING_DESCRIPTION>
+
+**Format**:
+<FEATURE_FORMAT>
+
+<FEATURE_BLOCKS>
+
+## Your Task
+
+### Code Generation (Required)
+Generate **TWO separate Python functions** that each create **ONE new feature**:
+<OPERATIONS_INFO>
+
+#### Function 1: <FUNCTION_1_TITLE>
+**Purpose**: <FUNCTION_1_PURPOSE>
+
+**Requirements**:
+<FUNCTION_1_REQUIREMENTS>
+
+#### Function 2: <FUNCTION_2_TITLE>
+**Purpose**: <FUNCTION_2_PURPOSE>
+
+**Requirements**:
+<FUNCTION_2_REQUIREMENTS>
+
+## Code Format
+```python
+import pandas as pd
+import numpy as np
+
+def apply_intra_group_engineering(ori_df):
+    """
+    Create one feature using the first strategy slot.
+
+    Args:
+        ori_df: Original DataFrame
+
+    Returns:
+        tuple: (modified_df, new_column_name, feature_type)
+    """
+    df = ori_df.copy()
+
+    # Feature Name: [include source features and operation] (**Never simpliy squared one feature**). 
+    # Rationale: [why this should help]
+
+    new_col_inner = 'fi_fk_operation' # replace fi_fk_operation with used features and opertaion
+    type_inner = 'Intra-Custom'
+
+    df[new_col_inner] = ... # don't change the left part of equation
+
+    return df, new_col_inner, type_inner
+
+
+def apply_cross_group_engineering(ori_df):
+    """
+    Create one feature using the second strategy slot.
+
+    Args:
+        ori_df: Original DataFrame
+
+    Returns:
+        tuple: (modified_df, new_column_name, feature_type)
+    """
+    df = ori_df.copy()
+
+    # Feature Name: [include source features and operation]
+    # Rationale: [why this should help]
+
+    new_col_cross = 'fi_fk_operation' # replace fi_fk_operation with used features and opertaion
+    type_cross = 'Cross-Custom'
+
+    df[new_col_cross] = ... # don't change the left part of equation
+
+    return df, new_col_cross, type_cross
+```
